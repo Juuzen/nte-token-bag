@@ -1,0 +1,5 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+export function BagView({ bag }) {
+    const total = bag.positive + bag.negative + bag.random;
+    return (_jsxs("section", { className: "bag-view", children: [_jsx("h2", { children: "Token Bag" }), _jsxs("div", { className: "bag-counts", children: [_jsxs("div", { className: "bag-token bag-token--positive", children: [_jsx("span", { className: "bag-token__count", children: bag.positive }), _jsx("span", { className: "bag-token__label", children: "Positive" })] }), _jsxs("div", { className: "bag-token bag-token--negative", children: [_jsx("span", { className: "bag-token__count", children: bag.negative }), _jsx("span", { className: "bag-token__label", children: "Negative" })] }), _jsxs("div", { className: "bag-token bag-token--random", children: [_jsx("span", { className: "bag-token__count", children: bag.random }), _jsx("span", { className: "bag-token__label", children: "Random" })] })] }), _jsxs("p", { className: "bag-total", children: ["Total: ", total, " token", total !== 1 ? "s" : ""] })] }));
+}
