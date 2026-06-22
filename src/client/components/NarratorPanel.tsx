@@ -1,5 +1,9 @@
 import { useState } from "react";
 import type { ClientMsg, PendingRequest, RoomConfig } from "@shared/protocol";
+import { Button } from "primereact/button";
+import { InputNumber } from "primereact/inputnumber";
+import { SelectButton } from "primereact/selectbutton";
+import { Slider } from "primereact/slider";
 
 type BagMode = "add" | "remove" | "set";
 
@@ -10,6 +14,12 @@ interface NarratorPanelProps {
   config: RoomConfig;
   send: (msg: ClientMsg) => void;
 }
+
+const modeOptions: { label: string; value: BagMode }[] = [
+  { label: "Add", value: "add" },
+  { label: "Remove", value: "remove" },
+  { label: "Set", value: "set" },
+];
 
 export function NarratorPanel({
   myId,
@@ -52,84 +62,108 @@ export function NarratorPanel({
     }
   }
 
-  function handleRandomProb(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleRandomProb(value: number) {
     send({
       type: "setConfig",
-      config: { randomPositiveProbability: parseFloat(e.target.value) },
+      config: { randomPositiveProbability: value / 100 },
     });
   }
 
+  const probPercent = Math.round(config.randomPositiveProbability * 100);
+
   return (
     <section className="narrator-panel">
-      <h2>Narrator</h2>
+      <div className="panel-title">Narrator</div>
 
       <div className="narrator-section">
-        <h3>Modify bag</h3>
-        <div className="mode-radios">
-          {(["add", "remove", "set"] as BagMode[]).map((m) => (
-            <label key={m}>
-              <input
-                type="radio"
-                name="bagMode"
-                value={m}
-                checked={mode === m}
-                onChange={() => setMode(m)}
-              />
-              {m.charAt(0).toUpperCase() + m.slice(1)}
-            </label>
-          ))}
+        <div className="section-title">Modify Bag</div>
+        <div className="mode-select">
+          <SelectButton
+            value={mode}
+            onChange={(e) => setMode(e.value as BagMode)}
+            options={modeOptions}
+            optionLabel="label"
+            optionValue="value"
+          />
         </div>
         <form className="token-form" onSubmit={handleBagSubmit}>
           <div className="token-form__inputs">
-            <label>
-              Positive
-              <input
-                type="number"
-                min={0}
+            <div className="token-form__field">
+              <span className="token-form__field-label token-form__field-label--positive">Positive</span>
+              <InputNumber
                 value={positive}
-                onChange={(e) => setPositive(Math.max(0, parseInt(e.target.value, 10) || 0))}
-              />
-            </label>
-            <label>
-              Negative
-              <input
-                type="number"
+                onValueChange={(e) => setPositive(Math.max(0, e.value ?? 0))}
                 min={0}
+                showButtons
+                buttonLayout="horizontal"
+                decrementButtonClassName="p-button-secondary"
+                incrementButtonClassName="p-button-secondary"
+                incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus"
+                inputStyle={{ width: "3.5rem", textAlign: "center" }}
+              />
+            </div>
+            <div className="token-form__field">
+              <span className="token-form__field-label token-form__field-label--negative">Negative</span>
+              <InputNumber
                 value={negative}
-                onChange={(e) => setNegative(Math.max(0, parseInt(e.target.value, 10) || 0))}
-              />
-            </label>
-            <label>
-              Random
-              <input
-                type="number"
+                onValueChange={(e) => setNegative(Math.max(0, e.value ?? 0))}
                 min={0}
-                value={random}
-                onChange={(e) => setRandom(Math.max(0, parseInt(e.target.value, 10) || 0))}
+                showButtons
+                buttonLayout="horizontal"
+                decrementButtonClassName="p-button-secondary"
+                incrementButtonClassName="p-button-secondary"
+                incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus"
+                inputStyle={{ width: "3.5rem", textAlign: "center" }}
               />
-            </label>
+            </div>
+            <div className="token-form__field">
+              <span className="token-form__field-label token-form__field-label--random">Random</span>
+              <InputNumber
+                value={random}
+                onValueChange={(e) => setRandom(Math.max(0, e.value ?? 0))}
+                min={0}
+                showButtons
+                buttonLayout="horizontal"
+                decrementButtonClassName="p-button-secondary"
+                incrementButtonClassName="p-button-secondary"
+                incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus"
+                inputStyle={{ width: "3.5rem", textAlign: "center" }}
+              />
+            </div>
           </div>
-          <button type="submit">
-            {mode === "add" ? "Add to bag" : mode === "remove" ? "Remove from bag" : "Set bag"}
-          </button>
+          <Button
+            type="submit"
+            icon="pi pi-check"
+            label={mode === "add" ? "Add to Bag" : mode === "remove" ? "Remove from Bag" : "Set Bag"}
+          />
         </form>
       </div>
 
       <div className="narrator-section">
-        <h3>Draw</h3>
-        <button onClick={handleDrawNow}>Draw Now</button>
+        <div className="section-title">Draw</div>
+        <Button label="Draw Now" icon="pi pi-bolt" onClick={handleDrawNow} />
       </div>
 
       <div className="narrator-section">
-        <h3>Pending requests ({pendingRequests.length})</h3>
+        <div className="section-title">
+          Pending Requests ({pendingRequests.length})
+        </div>
         {pendingRequests.length === 0 ? (
-          <p>No pending requests.</p>
+          <p style={{ color: "var(--text-muted)", fontSize: "0.88rem" }}>No pending requests.</p>
         ) : (
           <ul className="pending-list">
             {pendingRequests.map((req) => (
               <li key={req.id} className="pending-list__item">
-                <span>{req.playerName}</span>
-                <button onClick={() => handleConfirm(req.id)}>Confirm draw</button>
+                <span className="pending-list__player">{req.playerName}</span>
+                <Button
+                  label="Confirm"
+                  icon="pi pi-check"
+                  size="small"
+                  onClick={() => handleConfirm(req.id)}
+                />
               </li>
             ))}
           </ul>
@@ -137,29 +171,28 @@ export function NarratorPanel({
       </div>
 
       <div className="narrator-section">
-        <h3>Random token probability</h3>
-        <label>
-          Positive outcome:{" "}
-          <strong>{Math.round(config.randomPositiveProbability * 100)}%</strong>
-          <input
-            type="range"
-            min={0}
-            max={1}
-            step={0.01}
-            value={config.randomPositiveProbability}
-            onChange={handleRandomProb}
-          />
-        </label>
-        <p className="probability-hint">
-          Negative outcome: {Math.round((1 - config.randomPositiveProbability) * 100)}%
-        </p>
+        <div className="section-title">Random Token Probability</div>
+        <div className="probability-display">
+          <span className="probability-positive">Positive: {probPercent}%</span>
+          <span className="probability-negative">Negative: {100 - probPercent}%</span>
+        </div>
+        <Slider
+          value={probPercent}
+          onChange={(e) => handleRandomProb(e.value as number)}
+          min={0}
+          max={100}
+          step={1}
+        />
       </div>
 
-      <div className="narrator-section narrator-section--danger">
-        <h3>Reset</h3>
-        <button className="btn-danger" onClick={handleReset}>
-          Reset bag &amp; history
-        </button>
+      <div className="narrator-section">
+        <div className="section-title">Danger Zone</div>
+        <Button
+          label="Reset Bag & History"
+          icon="pi pi-trash"
+          severity="danger"
+          onClick={handleReset}
+        />
       </div>
     </section>
   );

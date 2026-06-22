@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-23T00:00:00.000Z",
+  "title": "Design System: NtE Token Bag",
+  "extensions": {
+    "colorMeta": {
+      "void-black": {
+        "role": "neutral",
+        "displayName": "Void Black",
+        "canonical": "#050510",
+        "tonalRamp": ["#020208", "#050510", "#090b22", "#0d1235", "#131a4a", "#1a2260", "#222c78", "#2c3890"]
+      },
+      "glass-surface": {
+        "role": "neutral",
+        "displayName": "Glass Veil",
+        "canonical": "rgba(8,12,35,0.65)",
+        "tonalRamp": ["#020308", "#050810", "#070a1c", "#0c1230", "#111a44", "#162256", "#1c2a68", "#22337a"]
+      },
+      "arc-blue": {
+        "role": "primary",
+        "displayName": "Arc Blue",
+        "canonical": "#00d4ff",
+        "tonalRamp": ["#001a26", "#002d40", "#004d70", "#0077aa", "#00a8dd", "#00c4f0", "#00d4ff", "#80eaff"]
+      },
+      "control-indigo": {
+        "role": "secondary",
+        "displayName": "Control Indigo",
+        "canonical": "#7c3aed",
+        "tonalRamp": ["#14073a", "#240d70", "#3715a5", "#5120d0", "#6a30e8", "#7c3aed", "#9b65f5", "#c4a8ff"]
+      },
+      "outcome-positive": {
+        "role": "tertiary",
+        "displayName": "Positive Pulse",
+        "canonical": "#00ff88",
+        "tonalRamp": ["#00170d", "#002b1a", "#004527", "#006640", "#009955", "#00cc70", "#00ff88", "#66ffbb"]
+      },
+      "outcome-negative": {
+        "role": "tertiary",
+        "displayName": "Threat Red",
+        "canonical": "#ff4466",
+        "tonalRamp": ["#280006", "#550010", "#880020", "#bb0033", "#ee2050", "#ff4466", "#ff7799", "#ffaabb"]
+      },
+      "outcome-random": {
+        "role": "tertiary",
+        "displayName": "Fate Amber",
+        "canonical": "#ff9a00",
+        "tonalRamp": ["#261500", "#4d2b00", "#804800", "#aa6600", "#cc8800", "#ff9a00", "#ffb83a", "#ffd880"]
+      },
+      "frost-white": {
+        "role": "neutral",
+        "displayName": "Frost White",
+        "canonical": "#dde6f0",
+        "tonalRamp": ["#111820", "#1e2a38", "#2e3e52", "#435870", "#607288", "#8898b0", "#b8c8d8", "#dde6f0"]
+      },
+      "muted-static": {
+        "role": "neutral",
+        "displayName": "Muted Static",
+        "canonical": "#7a8ba0",
+        "tonalRamp": ["#0e141a", "#1c2432", "#2e3a50", "#3e5068", "#556880", "#7a8ba0", "#a0b0c0", "#ccd5de"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Join-screen hero title. One instance per screen." },
+      "title":   { "displayName": "Title",   "purpose": "Room header, role badges, panel section headings. Colored Arc Blue." },
+      "body":    { "displayName": "Body",    "purpose": "Draw log entries, descriptions, form text. Frost White." },
+      "label":   { "displayName": "Label",   "purpose": "Form field labels, subsection headings. Arc Blue or Muted Static." },
+      "caption": { "displayName": "Caption", "purpose": "Timestamps, room codes, credential values. Reads as a system readout." }
+    },
+    "shadows": [
+      { "name": "arc-glow",              "value": "0 0 12px rgba(0,212,255,0.4), 0 0 30px rgba(0,212,255,0.15)",  "purpose": "Arc Blue interactive elements at rest — primary buttons, player badge, focused inputs." },
+      { "name": "arc-glow-hover",        "value": "0 0 20px rgba(0,212,255,0.6), 0 0 40px rgba(0,212,255,0.25)", "purpose": "Arc Blue elements on hover." },
+      { "name": "control-glow",          "value": "0 0 12px rgba(124,58,237,0.4), 0 0 30px rgba(124,58,237,0.15)", "purpose": "Control Indigo elements — narrator badge, secondary button." },
+      { "name": "outcome-glow-positive", "value": "0 0 12px rgba(0,255,136,0.1)",  "purpose": "Positive token counter ambient glow." },
+      { "name": "outcome-glow-negative", "value": "0 0 12px rgba(255,68,102,0.1)", "purpose": "Negative token counter ambient glow." },
+      { "name": "outcome-glow-random",   "value": "0 0 12px rgba(255,154,0,0.1)",  "purpose": "Random token counter ambient glow." }
+    ],
+    "motion": [
+      { "name": "ease-out-standard", "value": "cubic-bezier(0.25, 1, 0.5, 1)", "purpose": "Default easing for all state transitions." },
+      { "name": "duration-micro",    "value": "150ms",                          "purpose": "Hover and focus ring changes." },
+      { "name": "duration-standard", "value": "200ms",                          "purpose": "Button glows, input focus, panel transitions." },
+      { "name": "duration-theme",    "value": "300ms",                          "purpose": "Light/dark theme toggle — background-color and color." }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "480px", "purpose": "Bag token counters wrap; join card goes full-width." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Arc Blue gradient. Primary actions — Draw, Add to Bag, Confirm.",
+      "html": "<button class=\"ds-btn-primary\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M13 2 3 14h8l-1 10L21 11h-8z\"/></svg> Draw Now</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 0.45rem; font-family: 'Exo 2', system-ui, sans-serif; font-size: 1rem; font-weight: 600; letter-spacing: 0.04em; color: #ffffff; background: linear-gradient(135deg, #0088cc, #00d4ff); border: 1px solid #00d4ff; border-radius: 6px; padding: 0.5rem 1.25rem; cursor: pointer; box-shadow: 0 0 12px rgba(0,212,255,0.4), 0 0 30px rgba(0,212,255,0.15); transition: background 0.2s, box-shadow 0.2s; } .ds-btn-primary:hover { background: linear-gradient(135deg, #00aaee, #44e0ff); box-shadow: 0 0 20px rgba(0,212,255,0.6), 0 0 40px rgba(0,212,255,0.25); } .ds-btn-primary:focus-visible { outline: 2px solid #00d4ff; outline-offset: 2px; }"
+    },
+    {
+      "name": "Danger Button",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Threat Red gradient. Destructive narrator actions — bag reset only.",
+      "html": "<button class=\"ds-btn-danger\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><polyline points=\"3 6 5 6 21 6\"/><path d=\"M19 6l-1 14H6L5 6\"/><path d=\"M9 6V4h6v2\"/></svg> Reset Bag</button>",
+      "css": ".ds-btn-danger { display: inline-flex; align-items: center; gap: 0.45rem; font-family: 'Exo 2', system-ui, sans-serif; font-size: 1rem; font-weight: 600; letter-spacing: 0.04em; color: #ffffff; background: linear-gradient(135deg, #991133, #ff4466); border: 1px solid #ff4466; border-radius: 6px; padding: 0.5rem 1.25rem; cursor: pointer; box-shadow: 0 0 12px rgba(255,68,102,0.4); transition: background 0.2s, box-shadow 0.2s; } .ds-btn-danger:hover { background: linear-gradient(135deg, #bb1144, #ff6677); box-shadow: 0 0 20px rgba(255,68,102,0.6), 0 0 40px rgba(255,68,102,0.25); } .ds-btn-danger:focus-visible { outline: 2px solid #ff4466; outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Transparent Arc Blue outlined button for secondary actions.",
+      "html": "<button class=\"ds-btn-ghost\">Cancel</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; font-family: 'Exo 2', system-ui, sans-serif; font-size: 1rem; font-weight: 600; letter-spacing: 0.04em; color: #00d4ff; background: transparent; border: 1px solid #00d4ff; border-radius: 6px; padding: 0.5rem 1.25rem; cursor: pointer; transition: background 0.2s; } .ds-btn-ghost:hover { background: rgba(0,212,255,0.1); } .ds-btn-ghost:focus-visible { outline: 2px solid #00d4ff; outline-offset: 2px; }"
+    },
+    {
+      "name": "Narrator Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Control Indigo tint. Narrator-exclusive paired actions within the narrator panel.",
+      "html": "<button class=\"ds-btn-narrator\">Confirm Draw</button>",
+      "css": ".ds-btn-narrator { display: inline-flex; align-items: center; font-family: 'Exo 2', system-ui, sans-serif; font-size: 1rem; font-weight: 600; letter-spacing: 0.04em; color: #c4a8ff; background: rgba(124,58,237,0.2); border: 1px solid #7c3aed; border-radius: 6px; padding: 0.5rem 1.25rem; cursor: pointer; transition: background 0.2s, box-shadow 0.2s; } .ds-btn-narrator:hover { background: rgba(124,58,237,0.35); box-shadow: 0 0 12px rgba(124,58,237,0.4), 0 0 30px rgba(124,58,237,0.15); } .ds-btn-narrator:focus-visible { outline: 2px solid #7c3aed; outline-offset: 2px; }"
+    },
+    {
+      "name": "Token Counter",
+      "kind": "custom",
+      "refersTo": "token-counter-positive",
+      "description": "Bag contents display. Three outcome-colored variants: positive (green), negative (red), random (amber).",
+      "html": "<div style=\"display:flex;gap:1rem\"><div class=\"ds-token ds-token--positive\"><span class=\"ds-token__count\">5</span><span class=\"ds-token__label\">Positive</span></div><div class=\"ds-token ds-token--negative\"><span class=\"ds-token__count\">3</span><span class=\"ds-token__label\">Negative</span></div><div class=\"ds-token ds-token--random\"><span class=\"ds-token__count\">2</span><span class=\"ds-token__label\">Random</span></div></div>",
+      "css": ".ds-token { display: flex; flex-direction: column; align-items: center; min-width: 90px; padding: 0.875rem 1rem; border-radius: 10px; border: 2px solid transparent; backdrop-filter: blur(4px); transition: transform 0.2s; } .ds-token:hover { transform: translateY(-2px); } .ds-token__count { font-family: 'Orbitron', 'Courier New', monospace; font-size: 2.2rem; font-weight: 700; line-height: 1; } .ds-token__label { font-family: 'Exo 2', system-ui, sans-serif; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.3rem; } .ds-token--positive { background: rgba(0,255,136,0.06); border-color: rgba(0,255,136,0.4); color: #00ff88; box-shadow: 0 0 12px rgba(0,255,136,0.1); } .ds-token--negative { background: rgba(255,68,102,0.06); border-color: rgba(255,68,102,0.4); color: #ff4466; box-shadow: 0 0 12px rgba(255,68,102,0.1); } .ds-token--random { background: rgba(255,154,0,0.06); border-color: rgba(255,154,0,0.4); color: #ff9a00; box-shadow: 0 0 12px rgba(255,154,0,0.1); }"
+    },
+    {
+      "name": "Glass Panel",
+      "kind": "card",
+      "refersTo": "card-glass",
+      "description": "Primary container for all in-room UI sections. The glass treatment over the hex background is structural, not decorative.",
+      "html": "<div class=\"ds-glass-panel\"><div class=\"ds-glass-panel__title\">Bag Contents</div><p class=\"ds-glass-panel__body\">Token counts and draw state for the current session.</p></div>",
+      "css": ".ds-glass-panel { background: rgba(8,12,35,0.65); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(0,212,255,0.18); border-radius: 10px; padding: 1.25rem; color: #dde6f0; } .ds-glass-panel__title { font-family: 'Orbitron', 'Courier New', monospace; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #7a8ba0; margin-bottom: 0.875rem; } .ds-glass-panel__body { font-family: 'Exo 2', system-ui, sans-serif; font-size: 1rem; line-height: 1.5; }"
+    },
+    {
+      "name": "Input Field",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Text input. Noticeably darker than its panel background. Arc Blue focus ring.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Player name\" />",
+      "css": ".ds-input { display: block; width: 100%; background: rgba(0,10,30,0.6); border: 1px solid rgba(0,212,255,0.25); border-radius: 6px; color: #dde6f0; font-family: 'Exo 2', system-ui, sans-serif; font-size: 1rem; padding: 0.5rem 0.75rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; box-sizing: border-box; } .ds-input::placeholder { color: #7a8ba0; } .ds-input:focus { border-color: #00d4ff; box-shadow: 0 0 0 2px rgba(0,212,255,0.2); }"
+    },
+    {
+      "name": "Role Badges",
+      "kind": "chip",
+      "refersTo": "button-primary",
+      "description": "Binary role indicator in the room header. Narrator = Control Indigo. Player = Arc Blue.",
+      "html": "<span class=\"ds-badge ds-badge--narrator\">Narrator</span>&nbsp;<span class=\"ds-badge ds-badge--player\">Player</span>",
+      "css": ".ds-badge { display: inline-block; font-family: 'Orbitron', 'Courier New', monospace; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 4px; } .ds-badge--narrator { background: rgba(124,58,237,0.2); border: 1px solid #7c3aed; color: #c4a8ff; box-shadow: 0 0 12px rgba(124,58,237,0.4), 0 0 30px rgba(124,58,237,0.15); } .ds-badge--player { background: rgba(0,212,255,0.1); border: 1px solid #00d4ff; color: #00d4ff; box-shadow: 0 0 12px rgba(0,212,255,0.4), 0 0 30px rgba(0,212,255,0.15); }"
+    },
+    {
+      "name": "Draw Log Entry",
+      "kind": "custom",
+      "refersTo": "card-glass",
+      "description": "Session history row. Outcome kind and resolution colored with the Outcome Spectrum. Timestamp Orbitron caption, pushed right.",
+      "html": "<ul style=\"list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.3rem\"><li class=\"ds-log-entry\"><span class=\"ds-log-entry__player\">Aria</span>&nbsp;drew&nbsp;<span class=\"ds-log-entry__kind ds-log-entry__kind--random\">random</span>&nbsp;→&nbsp;<span class=\"ds-log-entry__resolved ds-log-entry__resolved--positive\">positive</span><span class=\"ds-log-entry__time\">14:22</span></li><li class=\"ds-log-entry\"><span class=\"ds-log-entry__player\">Kael</span>&nbsp;drew&nbsp;<span class=\"ds-log-entry__kind ds-log-entry__kind--negative\">negative</span>&nbsp;→&nbsp;<span class=\"ds-log-entry__resolved ds-log-entry__resolved--negative\">negative</span><span class=\"ds-log-entry__time\">14:19</span></li></ul>",
+      "css": ".ds-log-entry { display: flex; align-items: center; gap: 0.3rem; flex-wrap: wrap; font-size: 0.85rem; padding: 0.35rem 0.6rem; border-radius: 6px; background: rgba(0,10,30,0.4); border: 1px solid rgba(0,212,255,0.07); color: #dde6f0; font-family: 'Exo 2', system-ui, sans-serif; transition: border-color 0.15s; } .ds-log-entry:hover { border-color: rgba(0,212,255,0.2); } .ds-log-entry__player { font-weight: 700; } .ds-log-entry__kind--positive { color: #00ff88; font-weight: 600; } .ds-log-entry__kind--negative { color: #ff4466; font-weight: 600; } .ds-log-entry__kind--random { color: #ff9a00; font-weight: 600; } .ds-log-entry__resolved--positive { color: #00ff88; font-weight: 700; } .ds-log-entry__resolved--negative { color: #ff4466; font-weight: 700; } .ds-log-entry__time { margin-left: auto; font-size: 0.75rem; color: #7a8ba0; font-family: 'Orbitron', 'Courier New', monospace; letter-spacing: 0.04em; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Signal in the Dark",
+    "overview": "The NtE Token Bag design system is built for a single, recurring moment: a player draws from the bag. Everything else — the layout, the typography, the color choices — serves that moment without competing with it. The interface runs dark not as an aesthetic preference but as a necessity: players sit around a table in dim ambient light, eyes on each other and the GM, glancing at the screen only when they must. Anything that demands attention when it shouldn't demands too much.\n\nColor in this system is not decoration. It is assignment. Arc Blue marks interactive surfaces — the things you touch. Control Indigo marks Narrator authority — the things only the GM can touch. Green, red, and amber mark outcomes — the only things that matter after the draw fires. Nothing glows unless it is trying to tell you something specific.\n\nThis system explicitly refuses two failure modes. The first: the generic SaaS tool — white cards, metric grids, enterprise chrome, dashboards that look borrowed from a project management suite. The second: the fantasy RPG aesthetic — parchment, warm amber light, medieval serifs, the candlelit warmth of a dungeon-crawl game. Not the End is a near-future dystopian world. The interface should feel like equipment from that world: cold, functional, precise, and quietly alive.",
+    "keyCharacteristics": [
+      "Dark-canonical: the dark theme is the primary; light is an available option, not the default",
+      "Role-indexed color: every hue has exactly one semantic role; reassignment is a violation",
+      "Glow-not-shadow: depth comes from neon emission, not simulated overhead light",
+      "Glass surfaces: panels float as translucent layers over the generative hex background",
+      "Orbitron as atmosphere: the display font is low-frequency punctuation, never workhorse copy"
+    ],
+    "rules": [
+      {
+        "name": "The One Role Rule",
+        "body": "Each color has exactly one semantic role. Arc Blue belongs to universal interaction. Control Indigo belongs to the Narrator. The Outcome Spectrum belongs to draws. Using Arc Blue for a non-interactive label, or Control Indigo for a player button, is a system violation — not a style choice.",
+        "section": "colors"
+      },
+      {
+        "name": "The Outcome Spectrum Rule",
+        "body": "Green, red, and amber are reserved for drawn token outcomes. Prohibited as navigation colors, general success/error states, branding accents, or any surface where they would appear without a draw in context.",
+        "section": "colors"
+      },
+      {
+        "name": "The Orbitron Ceiling Rule",
+        "body": "Orbitron appears only in titles, badges, codes, and timestamps — never in body paragraphs, button labels, or form field labels. When Orbitron is running a sentence, it has been misused.",
+        "section": "typography"
+      },
+      {
+        "name": "The Glow-Not-Shadow Rule",
+        "body": "Drop shadows (box-shadow with positive Y offset, dark color) are prohibited. They simulate light from above; this system has no overhead light source. Depth is expressed only through neon emission (symmetric glows) and glass transparency (backdrop-filter). If an element needs to feel elevated, it should glow, not cast a shadow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Use Arc Blue (#00d4ff) for every interactive element — buttons, links, inputs, focus rings — that a player can touch.",
+      "Use Control Indigo (#7c3aed) exclusively for Narrator-scoped UI: the narrator badge, narrator-only controls, and the random-probability slider.",
+      "Color draw outcomes with the Outcome Spectrum: green for positive, red for negative, amber for random.",
+      "Apply backdrop-filter: blur(14px) to all panel containers. The glass treatment is structural.",
+      "Restrict Orbitron to titles, role badges, room codes, timestamps, and token counts. Six words or fewer per instance.",
+      "Use two-layer neon box-shadows (tight glow + outer bloom) as the elevation system.",
+      "Test and design in dark mode first. The dark theme is canonical."
+    ],
+    "donts": [
+      "Don't apply generic SaaS or dashboard conventions: white or light-gray cards, metric grids, sidebar navigation, enterprise-chrome button treatments.",
+      "Don't use fantasy TTRPG aesthetics: parchment backgrounds, warm amber tints, medieval or calligraphic serif fonts.",
+      "Don't use drop shadows (box-shadow with positive Y offset and a dark color) anywhere in the interface.",
+      "Don't run Orbitron through body copy, button labels, paragraph text, or any continuous reading surface.",
+      "Don't repurpose the Outcome Spectrum colors (green/red/amber) for non-outcome UI states.",
+      "Don't use gradient text (background-clip: text combined with a gradient background).",
+      "Don't apply Control Indigo to any UI element a player (non-narrator role) would interact with.",
+      "Don't use the glass-surface token as a solid color — it requires rgba transparency and backdrop-filter to function."
+    ]
+  }
+}

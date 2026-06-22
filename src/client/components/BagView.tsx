@@ -8,7 +8,7 @@ export function BagView({ bag }: BagViewProps) {
   const total = bag.positive + bag.negative + bag.random;
   return (
     <section className="bag-view">
-      <h2>Token Bag</h2>
+      <div className="bag-view__title">Token Bag</div>
       <div className="bag-counts">
         <div className="bag-token bag-token--positive">
           <span className="bag-token__count">{bag.positive}</span>

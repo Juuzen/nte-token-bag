@@ -1,5 +1,7 @@
 import { useState } from "react";
 import type { ClientMsg, PendingRequest } from "@shared/protocol";
+import { Button } from "primereact/button";
+import { InputNumber } from "primereact/inputnumber";
 
 interface PlayerPanelProps {
   myId: string;
@@ -39,50 +41,78 @@ export function PlayerPanel({
 
   return (
     <section className="player-panel">
-      <h2>Player — {myName}</h2>
+      <div className="panel-title">Player — {myName}</div>
 
       <form className="token-form" onSubmit={handleAddTokens}>
-        <h3>Add tokens to the bag</h3>
+        <div className="section-title">Add tokens to the bag</div>
         <div className="token-form__inputs">
-          <label>
-            Positive
-            <input
-              type="number"
-              min={0}
+          <div className="token-form__field">
+            <span className="token-form__field-label token-form__field-label--positive">Positive</span>
+            <InputNumber
               value={positive}
-              onChange={(e) => setPositive(Math.max(0, parseInt(e.target.value, 10) || 0))}
-            />
-          </label>
-          <label>
-            Negative
-            <input
-              type="number"
+              onValueChange={(e) => setPositive(Math.max(0, e.value ?? 0))}
               min={0}
+              showButtons
+              buttonLayout="horizontal"
+              decrementButtonClassName="p-button-secondary"
+              incrementButtonClassName="p-button-secondary"
+              incrementButtonIcon="pi pi-plus"
+              decrementButtonIcon="pi pi-minus"
+              inputStyle={{ width: "3.5rem", textAlign: "center" }}
+            />
+          </div>
+          <div className="token-form__field">
+            <span className="token-form__field-label token-form__field-label--negative">Negative</span>
+            <InputNumber
               value={negative}
-              onChange={(e) => setNegative(Math.max(0, parseInt(e.target.value, 10) || 0))}
-            />
-          </label>
-          <label>
-            Random
-            <input
-              type="number"
+              onValueChange={(e) => setNegative(Math.max(0, e.value ?? 0))}
               min={0}
-              value={random}
-              onChange={(e) => setRandom(Math.max(0, parseInt(e.target.value, 10) || 0))}
+              showButtons
+              buttonLayout="horizontal"
+              decrementButtonClassName="p-button-secondary"
+              incrementButtonClassName="p-button-secondary"
+              incrementButtonIcon="pi pi-plus"
+              decrementButtonIcon="pi pi-minus"
+              inputStyle={{ width: "3.5rem", textAlign: "center" }}
             />
-          </label>
+          </div>
+          <div className="token-form__field">
+            <span className="token-form__field-label token-form__field-label--random">Random</span>
+            <InputNumber
+              value={random}
+              onValueChange={(e) => setRandom(Math.max(0, e.value ?? 0))}
+              min={0}
+              showButtons
+              buttonLayout="horizontal"
+              decrementButtonClassName="p-button-secondary"
+              incrementButtonClassName="p-button-secondary"
+              incrementButtonIcon="pi pi-plus"
+              decrementButtonIcon="pi pi-minus"
+              inputStyle={{ width: "3.5rem", textAlign: "center" }}
+            />
+          </div>
         </div>
-        <button type="submit">Add tokens</button>
+        <Button
+          type="submit"
+          label="Add Tokens"
+          icon="pi pi-plus-circle"
+          disabled={positive === 0 && negative === 0 && random === 0}
+        />
       </form>
 
       <div className="draw-request">
-        <h3>Draw request</h3>
+        <div className="section-title">Draw Request</div>
         {myPending ? (
           <p className="draw-request__waiting">
+            <i className="pi pi-spin pi-spinner" />
             Waiting for the narrator to confirm your draw…
           </p>
         ) : (
-          <button onClick={handleRequestDraw}>Request Draw</button>
+          <Button
+            label="Request Draw"
+            icon="pi pi-send"
+            onClick={handleRequestDraw}
+          />
         )}
       </div>
     </section>

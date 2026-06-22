@@ -1,6 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { PrimeReactProvider } from "primereact/api";
 import { App } from "./App";
+import "primereact/resources/themes/lara-dark-cyan/theme.css";
+import "primereact/resources/primereact.css";
+import "primeicons/primeicons.css";
 import "./index.css";
 
 const rootEl = document.getElementById("root");
@@ -10,6 +14,8 @@ if (rootEl === null) {
 
 createRoot(rootEl).render(
   <StrictMode>
-    <App />
+    <PrimeReactProvider value={{ ripple: true }}>
+      <App />
+    </PrimeReactProvider>
   </StrictMode>
 );
