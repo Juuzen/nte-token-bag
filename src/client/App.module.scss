@@ -1,0 +1,69 @@
+.room {
+  grid-template-areas: "header" "bag" "panel" "log";
+  grid-template-columns: 1fr;
+  gap: 0.875rem;
+
+  @media (min-width: 640px) {
+    grid-template-areas:
+      "header header"
+      "bag    bag"
+      "panel  log";
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}
+
+.roomHeader {
+  grid-area: header;
+}
+
+.headerTitle {
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+
+  :global([data-theme="light"]) & {
+    text-shadow: none;
+  }
+}
+
+.badgeNarrator {
+  background: rgba(124, 58, 237, 0.2);
+  border: 1px solid var(--color-neon-purple);
+  color: #c4a8ff;
+  box-shadow: var(--glow-purple);
+}
+
+.badgePlayer {
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid var(--color-neon-cyan);
+  color: var(--color-neon-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.badgeLocal {
+  background: rgba(232, 184, 75, 0.12);
+  border: 1px solid var(--color-neon-gold);
+  color: var(--color-neon-gold);
+  box-shadow: var(--glow-gold);
+}
+
+.connected {
+  color: var(--color-neon-green);
+  text-shadow: 0 0 6px rgba(0, 255, 136, 0.6);
+}
+
+.disconnected {
+  color: var(--color-neon-red);
+}
+
+.themeToggle {
+  border-radius: 8px;
+  transition: border-color 0.2s, background 0.3s;
+
+  &:hover {
+    border-color: var(--color-neon-cyan);
+  }
+}
+
+.loading {
+  text-shadow: var(--glow-cyan);
+}

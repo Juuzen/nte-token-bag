@@ -1,0 +1,118 @@
+.heroTitle {
+  :global([data-theme="light"]) & {
+    text-shadow: 0 2px 10px rgba(0, 136, 204, 0.3);
+  }
+}
+
+/* ── Role cards ──────────────────────────────────────────────── */
+.card {
+  background: var(--color-surface);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  color: var(--color-text);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease,
+    background 0.2s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.glyph {
+  transition: text-shadow 0.2s ease;
+}
+
+.purple {
+  border-color: rgba(124, 58, 237, 0.25);
+
+  .glyph,
+  .title {
+    color: #c4a8ff;
+  }
+  &:hover {
+    border-color: var(--color-neon-purple);
+    box-shadow: var(--glow-purple);
+    background: rgba(124, 58, 237, 0.08);
+  }
+  &:hover .glyph {
+    text-shadow: 0 0 20px rgba(124, 58, 237, 0.9);
+  }
+}
+
+.cyan {
+  border-color: rgba(0, 212, 255, 0.2);
+
+  .glyph,
+  .title {
+    color: var(--color-neon-cyan);
+  }
+  &:hover {
+    border-color: var(--color-neon-cyan);
+    box-shadow: var(--glow-cyan);
+    background: rgba(0, 212, 255, 0.06);
+  }
+  &:hover .glyph {
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.9);
+  }
+}
+
+/* ── Solo (local) shortcut ───────────────────────────────────── */
+.divider {
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(0, 212, 255, 0.1);
+  }
+}
+
+.soloBtn {
+  border: 1px solid rgba(232, 184, 75, 0.2);
+  color: var(--color-neon-gold);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease,
+    background 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    background: rgba(232, 184, 75, 0.06);
+    border-color: var(--color-neon-gold);
+    box-shadow: var(--glow-gold);
+  }
+  &:hover .soloGlyph {
+    text-shadow: 0 0 20px rgba(232, 184, 75, 0.9);
+  }
+}
+
+.soloGlyph {
+  transition: text-shadow 0.2s ease;
+}
+
+/* ── Forms ───────────────────────────────────────────────────── */
+.backBtn {
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  color: var(--color-text-muted);
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+
+  &:hover {
+    color: var(--color-neon-cyan);
+    border-color: rgba(0, 212, 255, 0.35);
+    background: rgba(0, 212, 255, 0.05);
+  }
+}
+
+.formActions :global(.p-button) {
+  flex: 1;
+  justify-content: center;
+}
+
+.credentials {
+  background: rgba(0, 10, 30, 0.5);
+  border: 1px solid rgba(0, 212, 255, 0.12);
+
+  :global([data-theme="light"]) & {
+    background: rgba(255, 255, 255, 0.6);
+    border-color: rgba(0, 136, 204, 0.15);
+  }
+}

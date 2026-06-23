@@ -1,29 +1,37 @@
 import type { Bag } from "@shared/protocol";
+import styles from "./BagView.module.scss";
 
 interface BagViewProps {
   bag: Bag;
 }
 
+const TOKENS = [
+  { kind: "positive", label: "Positive" },
+  { kind: "negative", label: "Negative" },
+  { kind: "random", label: "Random" },
+] as const;
+
 export function BagView({ bag }: BagViewProps) {
   const total = bag.positive + bag.negative + bag.random;
   return (
-    <section className="bag-view">
-      <div className="bag-view__title">Token Bag</div>
-      <div className="bag-counts">
-        <div className="bag-token bag-token--positive">
-          <span className="bag-token__count">{bag.positive}</span>
-          <span className="bag-token__label">Positive</span>
-        </div>
-        <div className="bag-token bag-token--negative">
-          <span className="bag-token__count">{bag.negative}</span>
-          <span className="bag-token__label">Negative</span>
-        </div>
-        <div className="bag-token bag-token--random">
-          <span className="bag-token__count">{bag.random}</span>
-          <span className="bag-token__label">Random</span>
-        </div>
+    <section className={`${styles.bagView} glass-surface px-5 py-4`}>
+      <div className="block-title">Token Bag</div>
+      <div className="grid grid-cols-3 gap-3.5">
+        {TOKENS.map(({ kind, label }) => (
+          <div
+            key={kind}
+            className={`${styles.token} ${styles[kind]} flex flex-col items-center p-4 rounded-xl border-2 border-transparent`}
+          >
+            <span className="font-display text-5xl font-bold leading-none">{bag[kind]}</span>
+            <span className="mt-[0.3rem] text-[0.7rem] font-bold uppercase tracking-[0.1em]">
+              {label}
+            </span>
+          </div>
+        ))}
       </div>
-      <p className="bag-total">Total: {total} token{total !== 1 ? "s" : ""}</p>
+      <p className="mt-3 text-sm tracking-[0.04em] text-text-muted">
+        Total: {total} token{total !== 1 ? "s" : ""}
+      </p>
     </section>
   );
 }

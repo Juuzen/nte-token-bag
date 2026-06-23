@@ -4,6 +4,7 @@ import { Button } from "primereact/button";
 import { InputNumber } from "primereact/inputnumber";
 import { SelectButton } from "primereact/selectbutton";
 import { Slider } from "primereact/slider";
+import styles from "./NarratorPanel.module.scss";
 
 type BagMode = "add" | "remove" | "set";
 
@@ -32,6 +33,12 @@ export function NarratorPanel({
   const [positive, setPositive] = useState(0);
   const [negative, setNegative] = useState(0);
   const [random, setRandom] = useState(0);
+
+  const fields = [
+    { label: "Positive", color: "text-neon-green", value: positive, set: setPositive },
+    { label: "Negative", color: "text-neon-red", value: negative, set: setNegative },
+    { label: "Random", color: "text-neon-orange", value: random, set: setRandom },
+  ];
 
   function handleBagSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -72,12 +79,12 @@ export function NarratorPanel({
   const probPercent = Math.round(config.randomPositiveProbability * 100);
 
   return (
-    <section className="narrator-panel">
+    <section className={`${styles.narratorPanel} glass-surface flex flex-col gap-5 p-5`}>
       <div className="panel-title">Narrator</div>
 
-      <div className="narrator-section">
+      <div className={styles.section}>
         <div className="section-title">Modify Bag</div>
-        <div className="mode-select">
+        <div className="mb-3.5">
           <SelectButton
             value={mode}
             onChange={(e) => setMode(e.value as BagMode)}
@@ -86,53 +93,27 @@ export function NarratorPanel({
             optionValue="value"
           />
         </div>
-        <form className="token-form" onSubmit={handleBagSubmit}>
-          <div className="token-form__inputs">
-            <div className="token-form__field">
-              <span className="token-form__field-label token-form__field-label--positive">Positive</span>
-              <InputNumber
-                value={positive}
-                onValueChange={(e) => setPositive(Math.max(0, e.value ?? 0))}
-                min={0}
-                showButtons
-                buttonLayout="horizontal"
-                decrementButtonClassName="p-button-secondary"
-                incrementButtonClassName="p-button-secondary"
-                incrementButtonIcon="pi pi-plus"
-                decrementButtonIcon="pi pi-minus"
-                inputStyle={{ width: "3.5rem", textAlign: "center" }}
-              />
-            </div>
-            <div className="token-form__field">
-              <span className="token-form__field-label token-form__field-label--negative">Negative</span>
-              <InputNumber
-                value={negative}
-                onValueChange={(e) => setNegative(Math.max(0, e.value ?? 0))}
-                min={0}
-                showButtons
-                buttonLayout="horizontal"
-                decrementButtonClassName="p-button-secondary"
-                incrementButtonClassName="p-button-secondary"
-                incrementButtonIcon="pi pi-plus"
-                decrementButtonIcon="pi pi-minus"
-                inputStyle={{ width: "3.5rem", textAlign: "center" }}
-              />
-            </div>
-            <div className="token-form__field">
-              <span className="token-form__field-label token-form__field-label--random">Random</span>
-              <InputNumber
-                value={random}
-                onValueChange={(e) => setRandom(Math.max(0, e.value ?? 0))}
-                min={0}
-                showButtons
-                buttonLayout="horizontal"
-                decrementButtonClassName="p-button-secondary"
-                incrementButtonClassName="p-button-secondary"
-                incrementButtonIcon="pi pi-plus"
-                decrementButtonIcon="pi pi-minus"
-                inputStyle={{ width: "3.5rem", textAlign: "center" }}
-              />
-            </div>
+        <form onSubmit={handleBagSubmit}>
+          <div className="mb-3.5 flex flex-wrap items-end gap-4">
+            {fields.map(({ label, color, value, set }) => (
+              <div key={label} className="flex flex-col gap-[0.3rem]">
+                <span className={`text-[0.7rem] font-bold uppercase tracking-[0.1em] ${color}`}>
+                  {label}
+                </span>
+                <InputNumber
+                  value={value}
+                  onValueChange={(e) => set(Math.max(0, e.value ?? 0))}
+                  min={0}
+                  showButtons
+                  buttonLayout="horizontal"
+                  decrementButtonClassName="p-button-secondary"
+                  incrementButtonClassName="p-button-secondary"
+                  incrementButtonIcon="pi pi-plus"
+                  decrementButtonIcon="pi pi-minus"
+                  inputStyle={{ width: "3.5rem", textAlign: "center" }}
+                />
+              </div>
+            ))}
           </div>
           <Button
             type="submit"
@@ -142,22 +123,25 @@ export function NarratorPanel({
         </form>
       </div>
 
-      <div className="narrator-section">
+      <div className={styles.section}>
         <div className="section-title">Draw</div>
         <Button label="Draw Now" icon="pi pi-bolt" onClick={handleDrawNow} />
       </div>
 
-      <div className="narrator-section">
+      <div className={styles.section}>
         <div className="section-title">
           Pending Requests ({pendingRequests.length})
         </div>
         {pendingRequests.length === 0 ? (
-          <p style={{ color: "var(--text-muted)", fontSize: "0.88rem" }}>No pending requests.</p>
+          <p className="text-[0.88rem] text-text-muted">No pending requests.</p>
         ) : (
-          <ul className="pending-list">
+          <ul className="flex list-none flex-col gap-[0.4rem]">
             {pendingRequests.map((req) => (
-              <li key={req.id} className="pending-list__item">
-                <span className="pending-list__player">{req.playerName}</span>
+              <li
+                key={req.id}
+                className={`${styles.pendingItem} flex items-center justify-between rounded-md px-3 py-2 text-[0.88rem]`}
+              >
+                <span className="font-medium text-text">{req.playerName}</span>
                 <Button
                   label="Confirm"
                   icon="pi pi-check"
@@ -170,11 +154,11 @@ export function NarratorPanel({
         )}
       </div>
 
-      <div className="narrator-section">
+      <div className={styles.section}>
         <div className="section-title">Random Token Probability</div>
-        <div className="probability-display">
-          <span className="probability-positive">Positive: {probPercent}%</span>
-          <span className="probability-negative">Negative: {100 - probPercent}%</span>
+        <div className="mb-2 flex justify-between text-[0.82rem]">
+          <span className="font-semibold text-neon-green">Positive: {probPercent}%</span>
+          <span className="font-semibold text-neon-red">Negative: {100 - probPercent}%</span>
         </div>
         <Slider
           value={probPercent}
@@ -185,7 +169,7 @@ export function NarratorPanel({
         />
       </div>
 
-      <div className="narrator-section">
+      <div className={styles.section}>
         <div className="section-title">Danger Zone</div>
         <Button
           label="Reset Bag & History"

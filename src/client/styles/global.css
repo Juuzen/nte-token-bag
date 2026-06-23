@@ -1,0 +1,253 @@
+@import "tailwindcss";
+
+/* ── Design tokens (Tailwind @theme → utilities + CSS vars) ─────
+   `static` forces every token to be emitted as a CSS var even when no
+   utility references it — several tokens (neon-gold, neon-purple) are
+   consumed only via var() in component modules / PrimeReact overrides,
+   which Tailwind's usage scanner can't see and would otherwise drop. */
+@theme static {
+  --color-bg: #050510;
+  --color-surface: rgba(8, 12, 35, 0.65);
+  --color-surface-border: rgba(0, 212, 255, 0.18);
+  --color-neon-cyan: #00d4ff;
+  --color-neon-purple: #7c3aed;
+  --color-neon-green: #00ff88;
+  --color-neon-red: #ff4466;
+  --color-neon-orange: #ff9a00;
+  --color-neon-gold: #e8b84b;
+  --color-text: #dde6f0;
+  --color-text-muted: #7a8ba0;
+  --font-display: 'Orbitron', 'Courier New', monospace;
+  --font-body: 'Exo 2', system-ui, -apple-system, sans-serif;
+}
+
+/* Runtime-only helper vars (referenced via var() from component modules,
+   so they live outside @theme to stay overridable per data-theme). */
+:root {
+  --glass-blur: blur(14px);
+  --glass-border: 1px solid var(--color-surface-border);
+  --glow-cyan: 0 0 12px rgba(0, 212, 255, 0.4), 0 0 30px rgba(0, 212, 255, 0.15);
+  --glow-purple: 0 0 12px rgba(124, 58, 237, 0.4), 0 0 30px rgba(124, 58, 237, 0.15);
+  --glow-gold: 0 0 12px rgba(232, 184, 75, 0.4), 0 0 30px rgba(232, 184, 75, 0.15);
+}
+
+/* ── Base ────────────────────────────────────────────────────── */
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--color-bg);
+    color: var(--color-text);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+/* ── Reusable effect utilities ───────────────────────────────── */
+@utility glass-surface {
+  background: var(--color-surface);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: 10px;
+}
+
+@utility neon-text-cyan {
+  text-shadow:
+    0 0 10px rgba(0, 212, 255, 0.8),
+    0 0 30px rgba(0, 212, 255, 0.4),
+    0 0 60px rgba(0, 212, 255, 0.2);
+}
+
+/* Shared section/title patterns (used across panels & boards) */
+@utility block-title {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 0.875rem;
+}
+
+@utility panel-title {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+}
+
+@utility section-title {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-neon-cyan);
+  margin-bottom: 0.75rem;
+}
+
+/* ── PrimeReact overrides (global — target third-party DOM) ───── */
+.p-card {
+  background: var(--color-surface) !important;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border) !important;
+  border-radius: 12px !important;
+  color: var(--color-text) !important;
+}
+
+.p-card .p-card-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  color: var(--color-neon-cyan) !important;
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+}
+
+.p-card .p-card-content { color: var(--color-text) !important; }
+
+.p-button {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: 6px !important;
+  transition: all 0.2s ease;
+}
+
+.p-button:not(.p-button-outlined):not(.p-button-text):not(.p-button-danger) {
+  background: linear-gradient(135deg, #0088cc, #00d4ff) !important;
+  border-color: var(--color-neon-cyan) !important;
+  box-shadow: var(--glow-cyan);
+}
+.p-button:not(.p-button-outlined):not(.p-button-text):not(.p-button-danger):hover:not(:disabled) {
+  background: linear-gradient(135deg, #00aaee, #44e0ff) !important;
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.6), 0 0 40px rgba(0, 212, 255, 0.25);
+}
+
+.p-button.p-button-danger {
+  background: linear-gradient(135deg, #991133, #ff4466) !important;
+  border-color: var(--color-neon-red) !important;
+  box-shadow: 0 0 12px rgba(255, 68, 102, 0.4);
+}
+
+.p-button.p-button-outlined {
+  background: transparent !important;
+  border-color: var(--color-neon-cyan) !important;
+  color: var(--color-neon-cyan) !important;
+}
+.p-button.p-button-outlined:hover:not(:disabled) {
+  background: rgba(0, 212, 255, 0.1) !important;
+}
+
+.p-button.p-button-secondary {
+  background: rgba(124, 58, 237, 0.2) !important;
+  border-color: var(--color-neon-purple) !important;
+  color: #c4a8ff !important;
+}
+.p-button.p-button-secondary:hover:not(:disabled) {
+  background: rgba(124, 58, 237, 0.35) !important;
+  box-shadow: var(--glow-purple);
+}
+
+.p-inputtext {
+  background: rgba(0, 10, 30, 0.6) !important;
+  border-color: rgba(0, 212, 255, 0.25) !important;
+  color: var(--color-text) !important;
+  border-radius: 6px !important;
+  font-family: var(--font-body);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.p-inputtext:focus {
+  border-color: var(--color-neon-cyan) !important;
+  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2) !important;
+}
+
+.p-inputnumber-input {
+  background: rgba(0, 10, 30, 0.6) !important;
+  border-color: rgba(0, 212, 255, 0.25) !important;
+  color: var(--color-text) !important;
+}
+
+.p-slider .p-slider-range {
+  background: linear-gradient(90deg, var(--color-neon-purple), var(--color-neon-cyan)) !important;
+}
+.p-slider .p-slider-handle {
+  border-color: var(--color-neon-cyan) !important;
+  background: var(--color-neon-cyan) !important;
+  box-shadow: var(--glow-cyan);
+}
+
+.p-tag {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: 4px !important;
+}
+
+.p-selectbutton .p-button {
+  background: rgba(0, 10, 30, 0.5) !important;
+  border-color: rgba(0, 212, 255, 0.2) !important;
+  color: var(--color-text-muted) !important;
+  box-shadow: none !important;
+}
+.p-selectbutton .p-button.p-highlight {
+  background: linear-gradient(135deg, #0066aa, #00aadd) !important;
+  border-color: var(--color-neon-cyan) !important;
+  color: #fff !important;
+  box-shadow: var(--glow-cyan) !important;
+}
+
+.p-divider::before { border-color: rgba(0, 212, 255, 0.15) !important; }
+
+/* ── Light theme ─────────────────────────────────────────────── */
+[data-theme="light"] {
+  --color-bg: #f0f6ff;
+  --color-surface: rgba(255, 255, 255, 0.82);
+  --color-surface-border: rgba(0, 136, 204, 0.22);
+  --color-neon-cyan: #0088cc;
+  --color-neon-purple: #6b21e8;
+  --color-neon-green: #00994d;
+  --color-neon-red: #cc1133;
+  --color-neon-orange: #cc5500;
+  --color-neon-gold: #a06800;
+  --color-text: #111827;
+  --color-text-muted: #4b5880;
+  --glow-cyan: 0 0 8px rgba(0, 136, 204, 0.25), 0 0 16px rgba(0, 136, 204, 0.1);
+  --glow-purple: 0 0 8px rgba(107, 33, 232, 0.25), 0 0 16px rgba(107, 33, 232, 0.1);
+  --glow-gold: 0 0 8px rgba(160, 104, 0, 0.25), 0 0 16px rgba(160, 104, 0, 0.1);
+}
+
+[data-theme="light"] .p-inputtext,
+[data-theme="light"] .p-inputnumber-input {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(0, 136, 204, 0.28) !important;
+}
+
+[data-theme="light"] .p-inputtext:focus {
+  border-color: var(--color-neon-cyan) !important;
+  box-shadow: 0 0 0 2px rgba(0, 136, 204, 0.18) !important;
+}
+
+[data-theme="light"] .p-button:not(.p-button-outlined):not(.p-button-text):not(.p-button-danger) {
+  background: linear-gradient(135deg, #0066aa, #0088cc) !important;
+}
+
+[data-theme="light"] .p-selectbutton .p-button {
+  background: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(0, 136, 204, 0.22) !important;
+}
+
+[data-theme="light"] .p-divider::before {
+  border-color: rgba(0, 136, 204, 0.18) !important;
+}

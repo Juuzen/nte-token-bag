@@ -1,0 +1,33 @@
+.bagView {
+  grid-area: bag;
+}
+
+.token {
+  transition: transform 0.2s, box-shadow 0.2s;
+  backdrop-filter: blur(4px);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.positive {
+  background: rgba(0, 255, 136, 0.06);
+  border-color: rgba(0, 255, 136, 0.4);
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.1);
+  color: var(--color-neon-green);
+}
+
+.negative {
+  background: rgba(255, 68, 102, 0.06);
+  border-color: rgba(255, 68, 102, 0.4);
+  box-shadow: 0 0 12px rgba(255, 68, 102, 0.1);
+  color: var(--color-neon-red);
+}
+
+.random {
+  background: rgba(255, 154, 0, 0.06);
+  border-color: rgba(255, 154, 0, 0.4);
+  box-shadow: 0 0 12px rgba(255, 154, 0, 0.1);
+  color: var(--color-neon-orange);
+}

@@ -1,0 +1,27 @@
+.narratorPanel {
+  grid-area: panel;
+}
+
+.section {
+  border-top: 1px solid rgba(0, 212, 255, 0.08);
+  padding-top: 1rem;
+
+  &:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  :global([data-theme="light"]) & {
+    border-color: rgba(0, 136, 204, 0.12);
+  }
+}
+
+.pendingItem {
+  background: rgba(0, 10, 30, 0.4);
+  border: 1px solid rgba(0, 212, 255, 0.1);
+
+  :global([data-theme="light"]) & {
+    background: rgba(240, 246, 255, 0.7);
+    border-color: rgba(0, 136, 204, 0.14);
+  }
+}

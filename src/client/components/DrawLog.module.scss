@@ -1,0 +1,29 @@
+.drawLog {
+  grid-area: log;
+}
+
+.list {
+  max-height: clamp(200px, 38vh, 480px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 212, 255, 0.3) transparent;
+}
+
+.entry {
+  background: rgba(0, 10, 30, 0.4);
+  border: 1px solid rgba(0, 212, 255, 0.07);
+  transition: border-color 0.15s;
+
+  &:hover {
+    border-color: rgba(0, 212, 255, 0.2);
+  }
+
+  :global([data-theme="light"]) & {
+    background: rgba(240, 246, 255, 0.6);
+    border-color: rgba(0, 136, 204, 0.1);
+  }
+
+  :global([data-theme="light"]) &:hover {
+    border-color: rgba(0, 136, 204, 0.25);
+  }
+}
