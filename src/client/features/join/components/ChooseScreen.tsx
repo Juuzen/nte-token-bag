@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useSession } from "../SessionContext";
-import { screenClass, heroTitleClass, heroSubClass } from "./joinShared";
+import { useSession } from "@client/stores/session";
+import { screenClass, heroTitleClass, heroSubClass } from "../utils/joinShared";
 import styles from "./JoinRoom.module.scss";
 
 const ROLE_OPTIONS = [

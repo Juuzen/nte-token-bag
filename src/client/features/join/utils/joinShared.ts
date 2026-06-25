@@ -1,4 +1,4 @@
-import styles from "./JoinRoom.module.scss";
+import styles from "../components/JoinRoom.module.scss";
 
 // Shared Tailwind className strings used across the join-flow screens
 // (ChooseScreen / CreateRoomScreen / JoinRoomScreen).

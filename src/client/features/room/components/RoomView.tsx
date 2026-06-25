@@ -1,55 +1,12 @@
-import { useEffect, useState } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
-import { useRoom } from "./useRoom";
-import { SessionProvider, useSession } from "./SessionContext";
-import type { Session } from "./SessionContext";
-import { HexBackground } from "./components/HexBackground";
-import { ChooseScreen } from "./components/ChooseScreen";
-import { CreateRoomScreen } from "./components/CreateRoomScreen";
-import { JoinRoomScreen } from "./components/JoinRoomScreen";
-import { BagView } from "./components/BagView";
-import { PlayerPanel } from "./components/PlayerPanel";
-import { NarratorPanel } from "./components/NarratorPanel";
-import { DrawLog } from "./components/DrawLog";
-import styles from "./App.module.scss";
+import { useRoom } from "@client/features/room/api/useRoom";
+import type { Session } from "@client/stores/session";
+import { BagView } from "./BagView";
+import { PlayerPanel } from "./PlayerPanel";
+import { NarratorPanel } from "./NarratorPanel";
+import { DrawLog } from "./DrawLog";
+import styles from "./RoomView.module.scss";
 
-export function App() {
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-  }, [theme]);
-
-  return (
-    <SessionProvider>
-      <HexBackground />
-      <button
-        className={`${styles.themeToggle} glass-surface fixed top-4 right-4 z-[100] cursor-pointer px-[0.7rem] py-[0.45rem] text-[1.1rem] leading-none text-text`}
-        onClick={() => setTheme(t => t === "dark" ? "light" : "dark")}
-        aria-label="Toggle theme"
-      >
-        {theme === "dark" ? "☀" : "☾"}
-      </button>
-      <Routes>
-        <Route path="/" element={<ChooseScreen />} />
-        <Route path="/create" element={<CreateRoomScreen />} />
-        <Route path="/join" element={<JoinRoomScreen />} />
-        <Route path="/room/:roomCode" element={<RoomRoute />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </SessionProvider>
-  );
-}
-
-function RoomRoute() {
-  const { session } = useSession();
-  if (session === null) {
-    return <Navigate to="/join" replace />;
-  }
-  return <RoomView session={session} />;
-}
-
-function RoomView({ session }: { session: Session }) {
+export function RoomView({ session }: { session: Session }) {
   const { isLocal } = session;
   const { state, role, myId, myName, roomCode, send, connected } =
     useRoom(session);

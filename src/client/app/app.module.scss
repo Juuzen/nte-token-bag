@@ -1,0 +1,8 @@
+.themeToggle {
+  border-radius: 8px;
+  transition: border-color 0.2s, background 0.3s;
+
+  &:hover {
+    border-color: var(--color-neon-cyan);
+  }
+}

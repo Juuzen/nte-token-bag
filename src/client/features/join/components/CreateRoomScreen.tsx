@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
-import { useSession } from "../SessionContext";
-import { screenClass, heroTitleClass, heroSubClass, labelClass, backBtnClass } from "./joinShared";
+import { useSession } from "@client/stores/session";
+import { screenClass, heroTitleClass, heroSubClass, labelClass, backBtnClass } from "../utils/joinShared";
 import styles from "./JoinRoom.module.scss";
 
 function generateRoomCode(): string {
