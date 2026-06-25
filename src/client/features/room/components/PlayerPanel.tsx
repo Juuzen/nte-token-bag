@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { ClientMsg, PendingRequest } from "@shared/protocol";
 import { Button } from "primereact/button";
 import { InputNumber } from "primereact/inputnumber";
@@ -17,6 +18,7 @@ export function PlayerPanel({
   pendingRequests,
   send,
 }: PlayerPanelProps) {
+  const { t } = useTranslation();
   const [positive, setPositive] = useState(0);
   const [negative, setNegative] = useState(0);
   const [random, setRandom] = useState(0);
@@ -24,10 +26,10 @@ export function PlayerPanel({
   const myPending = pendingRequests.find((r) => r.playerId === myId);
 
   const fields = [
-    { label: "Positive", color: "text-neon-green", value: positive, set: setPositive },
-    { label: "Negative", color: "text-neon-red", value: negative, set: setNegative },
-    { label: "Random", color: "text-neon-orange", value: random, set: setRandom },
-  ];
+    { kind: "positive", color: "text-neon-green", value: positive, set: setPositive },
+    { kind: "negative", color: "text-neon-red", value: negative, set: setNegative },
+    { kind: "random", color: "text-neon-orange", value: random, set: setRandom },
+  ] as const;
 
   function handleAddTokens(e: React.FormEvent) {
     e.preventDefault();
@@ -48,15 +50,15 @@ export function PlayerPanel({
 
   return (
     <section className={`${styles.playerPanel} glass-surface flex flex-col gap-5 p-5`}>
-      <div className="panel-title">Player — {myName}</div>
+      <div className="panel-title">{t("player.title", { name: myName })}</div>
 
       <form onSubmit={handleAddTokens}>
-        <div className="section-title">Add tokens to the bag</div>
+        <div className="section-title">{t("player.addToBag")}</div>
         <div className="mb-3.5 flex flex-wrap items-end gap-4">
-          {fields.map(({ label, color, value, set }) => (
-            <div key={label} className="flex flex-col gap-[0.3rem]">
+          {fields.map(({ kind, color, value, set }) => (
+            <div key={kind} className="flex flex-col gap-[0.3rem]">
               <span className={`text-[0.7rem] font-bold uppercase tracking-[0.1em] ${color}`}>
-                {label}
+                {t(`common.kind.${kind}`)}
               </span>
               <InputNumber
                 value={value}
@@ -75,22 +77,22 @@ export function PlayerPanel({
         </div>
         <Button
           type="submit"
-          label="Add Tokens"
+          label={t("player.addTokens")}
           icon="pi pi-plus-circle"
           disabled={positive === 0 && negative === 0 && random === 0}
         />
       </form>
 
       <div className="flex flex-col gap-2">
-        <div className="section-title">Draw Request</div>
+        <div className="section-title">{t("player.drawRequest")}</div>
         {myPending ? (
           <p className="flex items-center gap-2 text-[0.88rem] italic text-text-muted">
             <i className="pi pi-spin pi-spinner" />
-            Waiting for the narrator to confirm your draw…
+            {t("player.waiting")}
           </p>
         ) : (
           <Button
-            label="Request Draw"
+            label={t("player.requestDraw")}
             icon="pi pi-send"
             onClick={handleRequestDraw}
           />

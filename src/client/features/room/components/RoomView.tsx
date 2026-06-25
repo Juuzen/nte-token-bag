@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useRoom } from "@client/features/room/api/useRoom";
 import type { Session } from "@client/stores/session";
 import { BagView } from "./BagView";
@@ -7,6 +8,7 @@ import { DrawLog } from "./DrawLog";
 import styles from "./RoomView.module.scss";
 
 export function RoomView({ session }: { session: Session }) {
+  const { t } = useTranslation();
   const { isLocal } = session;
   const { state, role, myId, myName, roomCode, send, connected } =
     useRoom(session);
@@ -14,7 +16,7 @@ export function RoomView({ session }: { session: Session }) {
   if (!connected || state === null) {
     return (
       <div className={`${styles.loading} relative z-[1] flex min-h-screen items-center justify-center font-display text-base tracking-[0.2em] text-neon-cyan`}>
-        CONNECTING…
+        {t("room.connecting")}
       </div>
     );
   }
@@ -27,15 +29,15 @@ export function RoomView({ session }: { session: Session }) {
         <header className={`${styles.roomHeader} glass-surface flex items-center justify-between px-5 py-3`}>
           <div>
             <div className={`${styles.headerTitle} font-display text-[1.1rem] font-bold tracking-[0.1em] text-neon-cyan`}>
-              NtE Token Bag
+              {t("room.title")}
             </div>
             <div className="mt-[0.15rem] font-display text-[0.72rem] tracking-[0.1em] text-text-muted">
-              {isLocal ? "LOCAL SESSION" : `ROOM: ${roomCode}`}
+              {isLocal ? t("room.localSession") : t("room.roomCode", { code: roomCode })}
             </div>
           </div>
           <div className="flex items-center gap-3 text-[0.85rem]">
             <span className={`${badgeClass} font-display text-[0.65rem] font-bold uppercase tracking-[0.12em] rounded px-[0.6rem] py-[0.2rem]`}>
-              {isLocal ? "local" : role}
+              {isLocal ? t("room.local") : t(`common.role.${role}`)}
             </span>
             <span className="font-medium text-text">{myName}</span>
             <span className={`${connected ? styles.connected : styles.disconnected} text-base`}>

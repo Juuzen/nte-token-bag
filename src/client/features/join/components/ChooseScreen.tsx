@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useSession } from "@client/stores/session";
 import { screenClass, heroTitleClass, heroSubClass } from "../utils/joinShared";
 import styles from "./JoinRoom.module.scss";
@@ -8,20 +9,21 @@ const ROLE_OPTIONS = [
     path: "/create" as const,
     accent: "purple" as const,
     glyph: "⬢",
-    title: "NARRATOR",
-    description: "Host a room. Set the bag. Run the session.",
+    titleKey: "choose.narrator" as const,
+    descKey: "choose.narratorDesc" as const,
   },
   {
     path: "/join" as const,
     accent: "cyan" as const,
     glyph: "⬡",
-    title: "PLAYER",
-    description: "Enter a room code from your narrator.",
+    titleKey: "choose.player" as const,
+    descKey: "choose.playerDesc" as const,
   },
 ];
 
 export function ChooseScreen() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { setSession } = useSession();
 
   function enterLocal() {
@@ -37,11 +39,11 @@ export function ChooseScreen() {
   return (
     <div className={screenClass}>
       <div className="mb-8 text-center">
-        <h1 className={heroTitleClass}>NtE TOKEN BAG</h1>
-        <p className={heroSubClass}>Not the End · Token Simulator</p>
+        <h1 className={heroTitleClass}>{t("choose.title")}</h1>
+        <p className={heroSubClass}>{t("choose.subtitle")}</p>
       </div>
       <div className="flex w-full max-w-[700px] gap-4 max-[600px]:max-w-[400px] max-[600px]:flex-col">
-        {ROLE_OPTIONS.map(({ path, accent, glyph, title, description }) => (
+        {ROLE_OPTIONS.map(({ path, accent, glyph, titleKey, descKey }) => (
           <button
             key={path}
             className={`${styles.card} ${styles[accent]} flex flex-1 cursor-pointer flex-col items-center gap-2.5 rounded-xl px-7 pt-10 pb-9 text-center`}
@@ -49,10 +51,10 @@ export function ChooseScreen() {
           >
             <span className={`${styles.glyph} text-5xl leading-none`}>{glyph}</span>
             <span className={`${styles.title} mt-1.5 font-display text-[0.85rem] font-bold tracking-[0.15em]`}>
-              {title}
+              {t(titleKey)}
             </span>
             <span className="mt-1 max-w-[22ch] text-[0.82rem] leading-[1.55] text-text-muted">
-              {description}
+              {t(descKey)}
             </span>
           </button>
         ))}
@@ -60,7 +62,7 @@ export function ChooseScreen() {
       <div className="mt-1 flex w-full max-w-[700px] flex-col items-center gap-3.5 max-[600px]:max-w-[400px]">
         <div className={`${styles.divider} flex w-full items-center gap-3.5`}>
           <span className="font-display text-[0.65rem] uppercase tracking-[0.18em] text-text-muted">
-            or
+            {t("common.or")}
           </span>
         </div>
         <button
@@ -69,9 +71,9 @@ export function ChooseScreen() {
         >
           <span className={`${styles.soloGlyph} text-2xl leading-none`}>✦</span>
           <span className="font-display text-[0.78rem] font-bold uppercase tracking-[0.14em]">
-            LOCAL
+            {t("choose.local")}
           </span>
-          <span className="text-[0.78rem] text-text-muted">Solo play · no network needed</span>
+          <span className="text-[0.78rem] text-text-muted">{t("choose.localDesc")}</span>
         </button>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { ClientMsg, PendingRequest, RoomConfig } from "@shared/protocol";
 import { Button } from "primereact/button";
 import { InputNumber } from "primereact/inputnumber";
@@ -16,12 +17,6 @@ interface NarratorPanelProps {
   send: (msg: ClientMsg) => void;
 }
 
-const modeOptions: { label: string; value: BagMode }[] = [
-  { label: "Add", value: "add" },
-  { label: "Remove", value: "remove" },
-  { label: "Set", value: "set" },
-];
-
 export function NarratorPanel({
   myId,
   myName,
@@ -29,16 +24,23 @@ export function NarratorPanel({
   config,
   send,
 }: NarratorPanelProps) {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<BagMode>("add");
   const [positive, setPositive] = useState(0);
   const [negative, setNegative] = useState(0);
   const [random, setRandom] = useState(0);
 
-  const fields = [
-    { label: "Positive", color: "text-neon-green", value: positive, set: setPositive },
-    { label: "Negative", color: "text-neon-red", value: negative, set: setNegative },
-    { label: "Random", color: "text-neon-orange", value: random, set: setRandom },
+  const modeOptions: { label: string; value: BagMode }[] = [
+    { label: t("narrator.mode.add"), value: "add" },
+    { label: t("narrator.mode.remove"), value: "remove" },
+    { label: t("narrator.mode.set"), value: "set" },
   ];
+
+  const fields = [
+    { kind: "positive", color: "text-neon-green", value: positive, set: setPositive },
+    { kind: "negative", color: "text-neon-red", value: negative, set: setNegative },
+    { kind: "random", color: "text-neon-orange", value: random, set: setRandom },
+  ] as const;
 
   function handleBagSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -64,7 +66,7 @@ export function NarratorPanel({
   }
 
   function handleReset() {
-    if (confirm("Reset the bag and history?")) {
+    if (confirm(t("narrator.resetConfirm"))) {
       send({ type: "reset" });
     }
   }
@@ -80,10 +82,10 @@ export function NarratorPanel({
 
   return (
     <section className={`${styles.narratorPanel} glass-surface flex flex-col gap-5 p-5`}>
-      <div className="panel-title">Narrator</div>
+      <div className="panel-title">{t("narrator.title")}</div>
 
       <div className={styles.section}>
-        <div className="section-title">Modify Bag</div>
+        <div className="section-title">{t("narrator.modifyBag")}</div>
         <div className="mb-3.5">
           <SelectButton
             value={mode}
@@ -95,10 +97,10 @@ export function NarratorPanel({
         </div>
         <form onSubmit={handleBagSubmit}>
           <div className="mb-3.5 flex flex-wrap items-end gap-4">
-            {fields.map(({ label, color, value, set }) => (
-              <div key={label} className="flex flex-col gap-[0.3rem]">
+            {fields.map(({ kind, color, value, set }) => (
+              <div key={kind} className="flex flex-col gap-[0.3rem]">
                 <span className={`text-[0.7rem] font-bold uppercase tracking-[0.1em] ${color}`}>
-                  {label}
+                  {t(`common.kind.${kind}`)}
                 </span>
                 <InputNumber
                   value={value}
@@ -118,22 +120,22 @@ export function NarratorPanel({
           <Button
             type="submit"
             icon="pi pi-check"
-            label={mode === "add" ? "Add to Bag" : mode === "remove" ? "Remove from Bag" : "Set Bag"}
+            label={t(`narrator.submit.${mode}`)}
           />
         </form>
       </div>
 
       <div className={styles.section}>
-        <div className="section-title">Draw</div>
-        <Button label="Draw Now" icon="pi pi-bolt" onClick={handleDrawNow} />
+        <div className="section-title">{t("narrator.draw")}</div>
+        <Button label={t("narrator.drawNow")} icon="pi pi-bolt" onClick={handleDrawNow} />
       </div>
 
       <div className={styles.section}>
         <div className="section-title">
-          Pending Requests ({pendingRequests.length})
+          {t("narrator.pending", { count: pendingRequests.length })}
         </div>
         {pendingRequests.length === 0 ? (
-          <p className="text-[0.88rem] text-text-muted">No pending requests.</p>
+          <p className="text-[0.88rem] text-text-muted">{t("narrator.noPending")}</p>
         ) : (
           <ul className="flex list-none flex-col gap-[0.4rem]">
             {pendingRequests.map((req) => (
@@ -143,7 +145,7 @@ export function NarratorPanel({
               >
                 <span className="font-medium text-text">{req.playerName}</span>
                 <Button
-                  label="Confirm"
+                  label={t("narrator.confirm")}
                   icon="pi pi-check"
                   size="small"
                   onClick={() => handleConfirm(req.id)}
@@ -155,10 +157,10 @@ export function NarratorPanel({
       </div>
 
       <div className={styles.section}>
-        <div className="section-title">Random Token Probability</div>
+        <div className="section-title">{t("narrator.randomProb")}</div>
         <div className="mb-2 flex justify-between text-[0.82rem]">
-          <span className="font-semibold text-neon-green">Positive: {probPercent}%</span>
-          <span className="font-semibold text-neon-red">Negative: {100 - probPercent}%</span>
+          <span className="font-semibold text-neon-green">{t("narrator.positivePct", { pct: probPercent })}</span>
+          <span className="font-semibold text-neon-red">{t("narrator.negativePct", { pct: 100 - probPercent })}</span>
         </div>
         <Slider
           value={probPercent}
@@ -170,9 +172,9 @@ export function NarratorPanel({
       </div>
 
       <div className={styles.section}>
-        <div className="section-title">Danger Zone</div>
+        <div className="section-title">{t("narrator.dangerZone")}</div>
         <Button
-          label="Reset Bag & History"
+          label={t("narrator.reset")}
           icon="pi pi-trash"
           severity="danger"
           onClick={handleReset}
